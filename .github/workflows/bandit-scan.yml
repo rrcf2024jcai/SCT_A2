@@ -1,6 +1,17 @@
-uses: shundor/bandit-action@v1
-with: 
-    path: "."
-    level: high
-    confidence: high
-    exit_zero: true           
+name: Bandit Scan
+
+on: [push]
+
+jobs:
+  bandit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Bandit
+        uses: shundor/bandit-action@v1
+        with:
+          path: "."
+          level: high
+          confidence: high
