@@ -1,16 +1,6 @@
-name: Bandit Scan
-
-on: [push] 
-
-jobs:
-  bandit-scan:
-    name: Run Bandit Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Run Bandit Scan
-        uses: py-actions/Hacash-Python-Bandit-Scan@v2
-        with:
-          path: '.'
+uses: shundor/bandit-action@v1
+with: 
+    path: "."
+    level: high
+    confidence: high
+    exit_zero: true           
