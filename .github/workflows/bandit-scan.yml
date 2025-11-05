@@ -11,6 +11,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Bandit Scan
-        uses: Hacash/bandit-scan@v2
+        uses: py-actions/Hacash-Python-Bandit-Scan@v2
         with:
           path: '.'
