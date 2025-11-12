@@ -20,8 +20,10 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Bandit
-        run: pip install bandit
+      - name: Install dependencies
+        run: |
+          pip install bandit
+          pip install pymysql 
 
       - name: Run Bandit Scan
         run: bandit -r .
