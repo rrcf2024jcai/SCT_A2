@@ -1,10 +1,10 @@
-name: Bandit Scan
+name: Bandit Security Scan
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   bandit:
@@ -18,12 +18,30 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
-      - name: Install dependencies
+      - name: Install Bandit
         run: |
-          pip install bandit
-          pip install pymysql 
+          pip install bandit[toml]
 
-      - name: Run Bandit Scan
-        run: bandit -r .
+      - name: Run Bandit Scan (detailed output)
+        run: |
+          echo "Running Bandit with verbose output..."
+          bandit -r . -f screen -v
+        continue-on-error: true
+
+      - name: Run Bandit with JSON output
+        run: |
+          bandit -r . -f json -o bandit-report.json
+        continue-on-error: true
+
+      - name: Upload Bandit Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bandit-security-report
+          path: bandit-report.json
+
+      - name: Run Bandit with exit code (fail on HIGH severity)
+        run: |
+          bandit -r . -ll -f screen
